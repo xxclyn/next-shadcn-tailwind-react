@@ -3,7 +3,7 @@
 import React from "react";
 
 const defaultContext = {
-  model: {},
+  formModel: {},
   layout: "horizontal",
   labelAlign: "right",
   colNum: 1,

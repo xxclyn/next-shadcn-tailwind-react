@@ -18,7 +18,7 @@ export default function Login() {
           <CardDescription>请输入账号密码</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col">
-          <Form labelWidth="small" labelAlign="vertical" gutter={0}>
+          <Form gutter={0}>
             <Input
               label="用户名"
               id="username"

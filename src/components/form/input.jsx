@@ -1,17 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { FormContext } from "./form";
+import z from "zod";
 
 export default function FInput(props) {
   const formProps = React.useContext(FormContext);
 
   const wrapperProps = {
-    className: cn("flex pb-5"),
+    className: cn("flex pb-1"),
   };
   const labelProps = {
     className: cn("flex items-center"),
@@ -20,13 +21,49 @@ export default function FInput(props) {
     placeholder: props.placeholder,
   };
 
+  // 处理模型
+  const [formModel, setFormModel] = useState(formProps.formModel);
+  if (formModel[props.id] === undefined) {
+    setFormModel({
+      ...formModel,
+      [props.id]: props.defaultValue || "",
+    });
+  }
+  ctrlProps.value = formModel[props.id];
+
   // 处理控件列宽
   handleWrapperWidth(props, formProps, wrapperProps, labelProps, ctrlProps);
+
+  // 处理表单校验
+  const [error, setError] = useState("");
+  const valueSchema = z.string().min(1, { message: "请输入" + props.label });
+  const validate = () => {
+    const result = valueSchema.safeParse(formModel[props.id]);
+    console.log(result);
+    if (!result.success) {
+      setError(result.error.issues[0].message);
+    } else {
+      setError("");
+    }
+  };
 
   return (
     <div {...wrapperProps}>
       {props.label && <Label {...labelProps}>{props.label}</Label>}
-      <Input {...ctrlProps}></Input>
+      <div>
+        <Input
+          {...ctrlProps}
+          onChange={(e) =>
+            setFormModel({ ...formModel, [props.id]: e.target.value })
+          }
+          onBlur={() => {
+            validate();
+          }}
+        ></Input>
+        <div className="text-[0.8rem] font-medium text-destructive mt-0.5 pl-0.5 h-5 leading-5">
+          {error}
+        </div>
+      </div>
     </div>
   );
 }
@@ -62,9 +99,6 @@ function handleWrapperWidth(
     }
   } else {
     switch (formProps.colNum) {
-      case 1:
-        widthCls = "w-full";
-        break;
       case 2:
         widthCls = "w-1/2";
         break;
