@@ -10,6 +10,10 @@ import Input from "@/components/form/input";
 import Form from "@/components/form/form";
 
 export default function Login() {
+  const formModel = {
+    username: "",
+  };
+
   return (
     <main className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-green-400 to-lime-400">
       <Card className="w-full max-w-sm">
@@ -18,7 +22,7 @@ export default function Login() {
           <CardDescription>请输入账号密码</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col">
-          <Form gutter={0}>
+          <Form gutter={0} formModel={formModel}>
             <Input
               label="用户名"
               id="username"
