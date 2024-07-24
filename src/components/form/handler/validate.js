@@ -8,8 +8,7 @@ export default function handleValidate(
   formProps,
   wrapperProps,
   labelProps,
-  itemProps,
-  formModel
+  itemProps
 ) {
   const [error, setError] = useState("");
   labelProps.error = error;
@@ -20,11 +19,20 @@ export default function handleValidate(
     });
   }
   const validate = () => {
-    const result = valueSchema.safeParse(formModel[props.id]);
-    if (!result.success) {
-      setError(result.error.issues[0].message);
-    } else {
-      setError("");
+    if (valueSchema) {
+      const result = valueSchema.safeParse(itemProps.value);
+      if (!result.success) {
+        setError(result.error.issues[0].message);
+        return {
+          status: false,
+          message: result.error.issues[0].message,
+        };
+      } else {
+        setError("");
+        return {
+          status: true,
+        };
+      }
     }
   };
 
@@ -34,7 +42,20 @@ export default function handleValidate(
     setError("");
   });
 
+  const clearValidate = () => {
+    setError("");
+  };
+
   if (error) {
     itemProps.className = cn(itemProps.className, "ring-1 ring-destructive");
   }
+
+  // 注册公共方法
+  itemProps.registrations.validate = validate;
+  itemProps.registrations.clearValidate = clearValidate;
+
+  return {
+    validate,
+    clearValidate,
+  };
 }

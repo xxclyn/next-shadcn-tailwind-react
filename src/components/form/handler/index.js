@@ -1,10 +1,10 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useImperativeHandle } from "react";
 import { cn } from "@/lib/utils";
 
 import handleLayout from "./layout";
 import handleValidate from "./validate";
 
-export function handleProps(props, FormContext) {
+export function handleProps(props, FormContext, ref) {
   const formProps = useContext(FormContext);
   const wrapperProps = {
     className: cn("flex pb-1"),
@@ -21,42 +21,49 @@ export function handleProps(props, FormContext) {
     changeEvents: [],
     blurEvents: [],
     focusEvents: [],
+    registrations: {},
   };
 
   // 处理默认值
   const { formModel, setFormModel } = formProps;
-  useEffect(() => {
-    if (formModel[props.id] === undefined) {
-      setFormModel((formModel) => ({
-        ...formModel,
-        [props.id]:
-          itemProps.defaultValue === undefined ? "" : itemProps.defaultValue,
-      }));
-    }
-  }, []);
-  itemProps.changeEvents.push((e) => {
-    setFormModel({ ...formModel, [props.id]: e.target.value });
-  });
+  if (formModel) {
+    useEffect(() => {
+      if (formModel[props.id] === undefined) {
+        setFormModel((formModel) => ({
+          ...formModel,
+          [props.id]:
+            itemProps.defaultValue === undefined ? "" : itemProps.defaultValue,
+        }));
+      }
+    }, []);
+    itemProps.changeEvents.push((e) => {
+      setFormModel({ ...formModel, [props.id]: e.target.value });
+    });
+    itemProps.value = formModel[props.id] || "";
+  }
 
   // 处理表单校验
-  handleValidate(
+  const { validate, clearValidate } = handleValidate(
     props,
     formProps,
     wrapperProps,
     labelProps,
-    itemProps,
-    formModel
+    itemProps
   );
 
   // 处理控件列宽
-  handleLayout(
-    props,
-    formProps,
-    wrapperProps,
-    labelProps,
-    itemProps,
-    formModel
-  );
+  handleLayout(props, formProps, wrapperProps, labelProps, itemProps);
+
+  // 注册公共方法
+  if (formProps.registrations && props.id) {
+    formProps.registrations[props.id] = itemProps.registrations;
+  }
+
+  // 暴露静态方法
+  useImperativeHandle(ref, () => ({
+    validate,
+    clearValidate,
+  }));
 
   // 事件处理
   itemProps.handleChange = async (e) => {
