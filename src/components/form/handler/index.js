@@ -17,6 +17,7 @@ export function handleProps(props, FormContext, ref) {
   };
   const itemProps = {
     className: "",
+    type: props.type,
     placeholder: props.placeholder,
     changeEvents: [],
     blurEvents: [],
@@ -55,8 +56,8 @@ export function handleProps(props, FormContext, ref) {
   handleLayout(props, formProps, wrapperProps, labelProps, itemProps);
 
   // 注册公共方法
-  if (formProps.registrations && props.id) {
-    formProps.registrations[props.id] = itemProps.registrations;
+  if (formProps.setRegistrations && props.id) {
+    formProps.setRegistrations([props.id], itemProps.registrations);
   }
 
   // 暴露静态方法

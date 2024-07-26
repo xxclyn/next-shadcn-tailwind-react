@@ -16,9 +16,14 @@ const defaultContext = {
 export const FormContext = createContext(defaultContext);
 
 export default React.forwardRef((props, ref) => {
-  let contextValue = { ...defaultContext, ...props, registrations: {} };
+  // 收集子组件的公共方法
+  let registrations = {};
+  const setRegistrations = (id, registration) => {
+    registrations[id] = registration;
+  };
+
+  let contextValue = { ...defaultContext, ...props, setRegistrations };
   let [formModel, setFormModel] = useState({ ...contextValue.initialValues });
-  const { registrations } = contextValue;
   useImperativeHandle(ref, () => ({
     validate: () => {
       let res = [];

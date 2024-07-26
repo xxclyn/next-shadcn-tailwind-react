@@ -18,9 +18,12 @@ export default function handleValidate(
       message: "请输入" + (labelProps.label || ""),
     });
   }
-  const validate = () => {
+  const validate = (value) => {
+    if (value === undefined) {
+      value = itemProps.value;
+    }
     if (valueSchema) {
-      const result = valueSchema.safeParse(itemProps.value);
+      const result = valueSchema.safeParse(value);
       if (!result.success) {
         setError(result.error.issues[0].message);
         return {
@@ -36,8 +39,7 @@ export default function handleValidate(
     }
   };
 
-  itemProps.blurEvents.push(validate);
-
+  itemProps.changeEvents.push((e) => validate(e.target.value));
   itemProps.focusEvents.push(() => {
     setError("");
   });
