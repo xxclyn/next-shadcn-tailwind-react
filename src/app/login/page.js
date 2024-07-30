@@ -1,5 +1,6 @@
 "use client";
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,10 +13,14 @@ import Input from "@/components/form/input";
 import Form from "@/components/form/form";
 
 export default function Login() {
+  const router = useRouter();
   const loginFormRef = useRef(null);
   const handleLogin = () => {
     const validate = loginFormRef.current.validate();
-    console.log(validate);
+    if (!validate.status) {
+      return;
+    }
+    router.push("/");
   };
   return (
     <main className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-green-400 to-lime-400">
