@@ -1,7 +1,11 @@
 "use client";
 
-import React, { useState, createContext, useImperativeHandle } from "react";
-import { Label } from "@/components/ui/label";
+import {
+  useState,
+  createContext,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
 import { cn } from "@/lib/utils";
 
 const defaultContext = {
@@ -15,7 +19,7 @@ const defaultContext = {
 
 export const FormContext = createContext(defaultContext);
 
-export default React.forwardRef((props, ref) => {
+export default forwardRef((props, ref) => {
   // 收集子组件的公共方法
   let registrations = {};
   const setRegistrations = (id, registration) => {
@@ -49,6 +53,19 @@ export default React.forwardRef((props, ref) => {
     </FormContext.Provider>
   );
 });
+
+export function Label({ className, children }) {
+  return (
+    <label
+      className={cn(
+        "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+        className
+      )}
+    >
+      {children}
+    </label>
+  );
+}
 
 export function FormItem({ wrapperProps, labelProps, children }) {
   return (
