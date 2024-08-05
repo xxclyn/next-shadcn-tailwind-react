@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/button";
 import Card from "@/components/ui/card";
 import Input from "@/components/ui/form/input";
 import Form from "@/components/ui/form/form";
