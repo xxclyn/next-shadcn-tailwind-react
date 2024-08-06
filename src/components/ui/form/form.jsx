@@ -27,7 +27,7 @@ export default forwardRef((props, ref) => {
   };
 
   let contextValue = { ...defaultContext, ...props, setRegistrations };
-  let [formModel, setFormModel] = useState({ ...contextValue.initialValues });
+  const [formModel, setFormModel] = useState({ ...contextValue.initialValues });
   useImperativeHandle(ref, () => ({
     validate: () => {
       let res = [];

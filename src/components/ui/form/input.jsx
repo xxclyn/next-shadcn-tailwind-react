@@ -1,12 +1,12 @@
 "use client";
 
-import React from "react";
+import { forwardRef } from "react";
 
 import { cn } from "@/lib/utils";
 import { FormContext, FormItem } from "./form";
 import { handleProps } from "./handler";
 
-const Input = React.forwardRef(({ className, type, ...props }, ref) => {
+const Input = forwardRef(({ className, type, ...props }, ref) => {
   return (
     <input
       type={type}
@@ -20,7 +20,7 @@ const Input = React.forwardRef(({ className, type, ...props }, ref) => {
   );
 });
 
-export default React.forwardRef((props, ref) => {
+export default forwardRef((props, ref) => {
   const { wrapperProps, labelProps, itemProps } = handleProps(
     props,
     FormContext,
