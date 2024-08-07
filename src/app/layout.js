@@ -4,7 +4,10 @@ import "./globals.css";
 
 import Dropdown from "@/components/ui/dropdown/dropdown";
 import DropdownContent from "@/components/ui/dropdown/dropdown-content";
-import Button from "@/components/ui/button";
+import Button from "@/components/ui/button/button";
+import Menu from "@/components/ui/menu/menu";
+import SubMenu from "@/components/ui/menu/sub-menu";
+import MenuItem from "@/components/ui/menu/menu-item";
 
 // export const metadata = {
 //   title: "Create Next App",
@@ -16,10 +19,21 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <div className="bg-muted">
-          <header className="h-12 bg-background border-b">
-            <Dropdown trigger="hover">
+          <header className="h-12 bg-background border-b pl-10 pt-1">
+            <Dropdown trigger="click">
               <Button>菜单</Button>
-              <DropdownContent>123</DropdownContent>
+              <DropdownContent>
+                <Menu>
+                  <MenuItem>123</MenuItem>
+                  <MenuItem>456</MenuItem>
+                  <MenuItem>789</MenuItem>
+                  <SubMenu title="123">
+                    <MenuItem>123</MenuItem>
+                    <MenuItem>456</MenuItem>
+                    <MenuItem>789</MenuItem>
+                  </SubMenu>
+                </Menu>
+              </DropdownContent>
             </Dropdown>
           </header>
           <div className="flex">

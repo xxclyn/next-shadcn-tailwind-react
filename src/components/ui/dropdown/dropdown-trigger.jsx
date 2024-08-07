@@ -35,8 +35,8 @@ export default forwardRef(({ setVisible, trigger, children }, ref) => {
   }
 
   return (
-    <span ref={ref} className="inline-block" {...triggerEvent}>
+    <div ref={ref} className="inline-block" {...triggerEvent}>
       {children}
-    </span>
+    </div>
   );
 });

@@ -1,35 +1,30 @@
 "use client";
 
-import { forwardRef, createContext, useState, useRef } from "react";
+import { forwardRef, createContext, useState, useRef, useEffect } from "react";
 import DropdownTrigger from "./dropdown-trigger";
 
 export const DropdownContext = createContext();
 
 export default forwardRef(
-  ({ open, trigger = "click", container, children }, ref) => {
+  ({ open, trigger = "click", position, container, children }, ref) => {
     const [visible, setVisible] = useState(false);
 
     const contentVisible = typeof open === "boolean" ? open : visible;
-
-    let position = {
-      top: 0,
-      left: 0,
-    };
-
     const triggerRef = useRef();
 
-    if (triggerRef.current) {
-      const rect = triggerRef.current.getBoundingClientRect();
-      const contentContainer = container || document.body;
-      position = {
-        top: rect.bottom + contentContainer.scrollTop + "px",
-        left: rect.left + contentContainer.scrollLeft + "px",
-      };
-    }
+    const [triggerRect, setTriggerRect] = useState({});
+    useEffect(() => {
+      setTriggerRect(triggerRef.current.getBoundingClientRect());
+    }, [visible]);
 
     return (
       <DropdownContext.Provider
-        value={{ visible: contentVisible, position, container }}
+        value={{
+          visible: contentVisible,
+          position,
+          triggerRect,
+          container,
+        }}
       >
         <DropdownTrigger
           ref={triggerRef}

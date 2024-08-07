@@ -1,7 +1,7 @@
 import { useState } from "react";
 import z from "zod";
-import { cn } from "@/lib/utils";
-import { isEmptyValue } from "@/lib/utils";
+import { cn } from "@/components/ui/utils/utils";
+import { isEmptyValue } from "@/components/ui/utils/utils";
 
 export default function handleValidate(
   props,

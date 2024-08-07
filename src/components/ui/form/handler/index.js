@@ -1,5 +1,5 @@
 import { useEffect, useContext, useImperativeHandle } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/components/ui/utils/utils";
 
 import handleLayout from "./layout";
 import handleValidate from "./validate";
