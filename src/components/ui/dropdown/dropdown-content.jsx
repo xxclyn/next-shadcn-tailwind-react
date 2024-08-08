@@ -30,10 +30,17 @@ export default forwardRef(({ children }, ref) => {
           };
           break;
         }
+        case "top": {
+          newPortalPosition = {
+            top: `${top - height}px`,
+            left: `${left}px`,
+          };
+          break;
+        }
         default: {
           newPortalPosition = {
-            top: `${top}px`,
-            left: `${right}px`,
+            top: `${bottom}px`,
+            left: `${left}px`,
           };
         }
       }

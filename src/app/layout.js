@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
       <body>
         <div className="bg-muted">
           <header className="h-12 bg-background border-b pl-10 pt-1">
-            <Dropdown trigger="click">
+            <Dropdown trigger="click" position="top">
               <Button>菜单</Button>
               <DropdownContent>
                 <Menu>
@@ -30,7 +30,11 @@ export default function RootLayout({ children }) {
                   <SubMenu title="123">
                     <MenuItem>123</MenuItem>
                     <MenuItem>456</MenuItem>
-                    <MenuItem>789</MenuItem>
+                    <SubMenu title="789">
+                      <MenuItem>123</MenuItem>
+                      <MenuItem>456</MenuItem>
+                      <MenuItem>789</MenuItem>
+                    </SubMenu>
                   </SubMenu>
                 </Menu>
               </DropdownContent>
